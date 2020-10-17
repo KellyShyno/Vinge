@@ -1,0 +1,142 @@
+#!/bin/bash
+#KellyShyno
+#Vinge
+#version: 1.0.0
+
+number='^[0-9]+$';
+logError="";
+chmod -R a+rx *;
+
+
+banner()
+{
+clear;
+sleep 0.16;
+echo -e '\e[1;37m    ______\e[0m';
+echo -e '\e[1;37m  _|      |_  \e[1;37mVinge\e[0m';
+echo -e '\e[1;37m (__________) \e[1;30mv.1.0.0\e[0m';
+echo "";
+}
+
+
+error()
+{
+clear; echo -e "\e[1;31mERROR: write the correct sign..\e[0m"; sleep 0.6;
+}
+
+
+input()
+{
+echo "";
+echo -en "\e[1;30m (\e[0m""\e[1;37mx\e[0m""\e[1;30m_\e[0m""\e[1;37mx\e[0m";
+echo -en "\e[1;30m)\e[0m" "\e[1;37m> \e[0m";
+}
+
+
+backOrExitBlock()
+{
+echo -e "\e[1;30mTo back: \"b\" | To exit: \"x\"\e[0m";
+echo "";
+}
+
+
+encryptFile()
+{
+echo
+}
+
+
+phoneNumber()
+{
+echo
+}
+
+
+metadata()
+{
+banner;
+backOrExitBlock;
+echo -en "\e[1;37mEnter the path to file: ";
+ read filePath
+echo "";
+  if [[ $filePath == "x" ]]; then
+echo ""; exit 0;
+  elif [[ $filePath == "b" ]]; then
+pentest;
+  elif [[ $filePath == $number ]]; then
+error; metadata;
+  elif [[ $filePath == "" ]]; then
+error; metadata;
+  else
+echo "" >> data/log/metadata/metadata.md;
+echo "" >> data/log/metadata/metadata.md;
+exiftool "$filePath" | tee -a data/log/metadata/metadata.md;
+echo "";
+echo -en "\e[1;30mpress any key: \e[0m";
+ read anyKey
+    case $anyKey in
+"") pentest; ;;
+*) pentest; ;;
+    esac;
+  fi;
+}
+
+
+web()
+{
+echo
+}
+
+
+pentest()
+{
+banner;
+backOrExitBlock;
+echo -en "\e[1;30m/ \e[0m""\e[37m1\e[0m"
+echo -e "\e[1;30m / \e[0m""\e[37mweb\e[0m";
+echo -en "\e[1;30m/ \e[0m""\e[37m2\e[0m"
+echo -e "\e[1;30m / \e[0m""\e[37mmetadata\e[0m";
+echo -en "\e[1;30m/ \e[0m""\e[37m3\e[0m"
+echo -e "\e[1;30m / \e[0m""\e[37mphone number\e[0m";
+echo -en "\e[1;30m/ \e[0m""\e[37m4\e[0m"
+echo -e "\e[1;30m / \e[0m""\e[37mencrypt file\e[0m";
+input;
+ read pentest
+  case $pentest in
+1) web; ;;
+2) metadata; ;;
+3) phoneNumber; ;;
+4) encryptFile; ;;
+"x") echo ""; exit 0; ;;
+"b") shyno; ;;
+*) error; pentest; ;;
+  esac;
+
+}
+
+
+aboutProgram()
+{
+echo
+}
+
+
+shyno()
+{
+banner;
+echo -e "\e[1;30mTo exit: \"x\"\e[0m";
+echo "";
+echo -en "\e[1;30m/ \e[0m""\e[37m1\e[0m"
+echo -e "\e[1;30m / \e[0m""\e[37mpentest\e[0m";
+echo -en "\e[1;30m/ \e[0m""\e[37m2\e[0m"
+echo -e "\e[1;30m / \e[0m""\e[37mabout program\e[0m";
+input;
+ read shyno
+  case $shyno in
+1) pentest; ;;
+2) aboutProgram; ;;
+"x") echo ""; exit 0; ;;
+*) error; shyno; ;;
+  esac;
+}
+shyno;
