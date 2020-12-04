@@ -8,10 +8,16 @@ logError="";
 chmod -R a+rx *;
 
 
+installing()
+{
+echo
+}
+
+
 banner()
 {
 clear;
-sleep 0.16;
+sleep 0.1;
 echo -e '\e[1;37m    ______\e[0m';
 echo -e '\e[1;37m  _|      |_  \e[1;37mVinge\e[0m';
 echo -e '\e[1;37m (__________) \e[1;30mv.1.0.0\e[0m';
@@ -33,20 +39,117 @@ echo -en "\e[1;30m)\e[0m" "\e[1;37m> \e[0m";
 }
 
 
-backOrExitBlock()
+backOrExit()
 {
-echo -e "\e[1;30mTo back: \"b\" | To exit: \"x\"\e[0m";
+echo -e "\e[1;30mTo back: 'b' | To exit: 'x'\e[0m";
 echo "";
+}
+
+
+soon()
+{
+banner;
+echo -e "\e[1;35msoon..\e[0m";
+echo "";
+echo -en "\e[1;30mpress any key: \e[0m";
+ read choice
+    case $choice in
+"") shyno; ;;
+*) shyno; ;;
+    esac;
+}
+
+
+decryptFile()
+{
+banner;
+backOrExit;
+echo -e "\e[1;30mdecrypt file\e[0m";
+echo "";
+echo -en "\e[37mEnter the path to file: \e[0m";
+ read filePath
+echo "";
+  if [[ $filePath == "x" ]]; then
+echo ""; exit 0;
+  elif [[ $filePath == "b" ]]; then
+encryptOrDecryptFile;
+  elif [[ $filePath == $number ]]; then
+error; metadata;
+  elif [[ $filePath == "" ]]; then
+error; metadata;
+  else
+ccdecrypt "$filePath";
+cp "$filePath.cpt" data/log/encryptedFiles/;
+#toDo LOG
+echo "";
+echo -en "\e[1;30mpress any key: \e[0m";
+ read choice
+    case $choice in
+"") pentest; ;;
+*) pentest; ;;
+    esac;
+  fi;
 }
 
 
 encryptFile()
 {
+banner;
+backOrExit;
+echo -e "\e[1;30mencrypt file\e[0m";
+echo "";
+echo -en "\e[37mEnter the path to file: \e[0m";
+ read filePath
+echo "";
+  if [[ $filePath == "x" ]]; then
+echo ""; exit 0;
+  elif [[ $filePath == "b" ]]; then
+encryptOrDecryptFile;
+  elif [[ $filePath == $number ]]; then
+error; metadata;
+  elif [[ $filePath == "" ]]; then
+error; metadata;
+  else
+ccencrypt "$filePath";
+cp "$filePath.cpt" data/log/encryptedFiles/;
+#toDo LOG
+echo "";
+echo -en "\e[1;30mpress any key: \e[0m";
+ read choice
+    case $choice in
+"") pentest; ;;
+*) pentest; ;;
+    esac;
+  fi;
+}
+
+
+encryptOrDecryptFile()
+{
+banner;
+backOrExit;
+echo -e "\e[37m1.encrypt\e[0m";
+echo -e "\e[37m2.decrypt\e[0m";
+input;
+ read choice
+    case $choice in
+1) encryptFile; ;;
+2) decryptFile; ;;
+"b") pentest; ;;
+"x") echo ""; exit 0; ;;
+*) error; encryptOrDecryptFile; ;;
+    esac;
+}
+
+
+
+phoneNumberInfo()
+{
 echo
 }
 
 
-phoneNumber()
+searchByNick()
 {
 echo
 }
@@ -55,8 +158,10 @@ echo
 metadata()
 {
 banner;
-backOrExitBlock;
-echo -en "\e[1;37mEnter the path to file: ";
+backOrExit;
+echo -e "\e[1;30mmetadata\e[0m";
+echo "";
+echo -en "\e[37mEnter the path to file: \e[0m";
  read filePath
 echo "";
   if [[ $filePath == "x" ]]; then
@@ -73,8 +178,8 @@ echo "" >> data/log/metadata/metadata.md;
 exiftool "$filePath" | tee -a data/log/metadata/metadata.md;
 echo "";
 echo -en "\e[1;30mpress any key: \e[0m";
- read anyKey
-    case $anyKey in
+ read choice
+    case $choice in
 "") pentest; ;;
 *) pentest; ;;
     esac;
@@ -82,36 +187,118 @@ echo -en "\e[1;30mpress any key: \e[0m";
 }
 
 
-web()
+siteInfo()
 {
-echo
+banner;
+backOrExit;
 }
 
 
 pentest()
 {
 banner;
-backOrExitBlock;
+backOrExit;
+#nickInfo
 echo -en "\e[1;30m/ \e[0m""\e[37m1\e[0m"
-echo -e "\e[1;30m / \e[0m""\e[37mweb\e[0m";
+echo -e "\e[1;30m / \e[0m""\e[37msite info\e[0m";
 echo -en "\e[1;30m/ \e[0m""\e[37m2\e[0m"
 echo -e "\e[1;30m / \e[0m""\e[37mmetadata\e[0m";
 echo -en "\e[1;30m/ \e[0m""\e[37m3\e[0m"
-echo -e "\e[1;30m / \e[0m""\e[37mphone number\e[0m";
+echo -e "\e[1;30m / \e[0m""\e[37msearch by nick\e[0m";
 echo -en "\e[1;30m/ \e[0m""\e[37m4\e[0m"
+echo -e "\e[1;30m / \e[0m""\e[37mphone number info\e[0m";
+echo -en "\e[1;30m/ \e[0m""\e[37m5\e[0m"
 echo -e "\e[1;30m / \e[0m""\e[37mencrypt file\e[0m";
 input;
- read pentest
-  case $pentest in
-1) web; ;;
+ read choice
+  case $choice in
+1) siteInfo; ;;
 2) metadata; ;;
-3) phoneNumber; ;;
-4) encryptFile; ;;
-"x") echo ""; exit 0; ;;
+3) searchByNick; ;;
+4) phoneNumberInfo; ;;
+5) encryptOrDecryptFile; ;;
 "b") shyno; ;;
+"x") echo ""; exit 0; ;;
 *) error; pentest; ;;
   esac;
+}
 
+
+clearLogExtraBlock()
+{
+banner;
+echo -e "\e[1;30m$logChoice cleared\e[0m"; sleep 1; clearLog;
+}
+
+
+clearLog()
+{
+banner;
+backOrExit;
+echo -e "\e[1;30mclear log\e[0m";
+echo "";
+echo -e "\e[37m1.site info\e[0m";
+echo -e "\e[37m2.metadata\e[0m";
+echo -e "\e[37m3.search by nick\e[0m";
+echo -e "\e[37m4.phone number info\e[0m";
+input
+ read choice
+  case $choice in
+1) logChoice="site info log";
+echo '#site info log' > data/log/siteInfo/siteInfo.md; ;;
+2) logChoice="metadata log";
+echo '#metadata log' > data/log/metadata/metadata.md; ;;
+3) logChoice="search by nick log";
+echo '#search by nick log' >data/log/searchByNick/searchByNick.md; ;;
+4) logChoice="phone number info log";
+echo '#phone number info log' >data/log/phoneNumberInfo/phoneNumberInfo.md; ;;
+"b") log; ;;
+"x") echo ""; exit 0; ;;
+*) error; clearLog; ;;
+  esac;
+clearLogExtraBlock; clearLog;
+}
+
+
+openLog()
+{
+banner;
+backOrExit;
+echo -e "\e[1;30mopen log\e[0m";
+echo "";
+echo -e "\e[37m1.site info\e[0m";
+echo -e "\e[37m2.metadata\e[0m";
+echo -e "\e[37m3.search by nick\e[0m";
+echo -e "\e[37m4.phone number info\e[0m";
+input
+ read choice
+  case $choice in
+1) clear; less data/log/siteInfo/siteInfo.md; openLog; ;;
+2) clear; less data/log/metadata/metadata.md; openLog; ;;
+3) clear; less data/log/searchByNick/searchByNick.md; openLog; ;;
+4) clear; less data/log/phoneNumberInfo/phoneNumberInfo.md; openLog; ;;
+"b") log; ;;
+"x") echo ""; exit 0; ;;
+*) error; openLog; ;;
+  esac;
+}
+
+
+log()
+{
+banner;
+backOrExit;
+echo -e "\e[37m1.open log\e[0m";
+echo -e "\e[37m2.clear log\e[0m";
+input
+ read choice
+  case $choice in
+1) openLog; ;;
+2) clearLog; ;;
+"b") shyno; ;;
+"x") echo ""; exit 0; ;;
+*) error; log; ;;
+  esac;
 }
 
 
@@ -124,17 +311,20 @@ echo
 shyno()
 {
 banner;
-echo -e "\e[1;30mTo exit: \"x\"\e[0m";
+echo -e "\e[1;30mTo exit: 'x'\e[0m";
 echo "";
 echo -en "\e[1;30m/ \e[0m""\e[37m1\e[0m"
 echo -e "\e[1;30m / \e[0m""\e[37mpentest\e[0m";
 echo -en "\e[1;30m/ \e[0m""\e[37m2\e[0m"
+echo -e "\e[1;30m / \e[0m""\e[37mlog\e[0m";
+echo -en "\e[1;30m/ \e[0m""\e[37m3\e[0m"
 echo -e "\e[1;30m / \e[0m""\e[37mabout program\e[0m";
 input;
- read shyno
-  case $shyno in
+ read choice
+  case $choice in
 1) pentest; ;;
-2) aboutProgram; ;;
+2) log; ;;
+3) aboutProgram; ;;
 "x") echo ""; exit 0; ;;
 *) error; shyno; ;;
   esac;
