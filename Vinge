@@ -3,10 +3,8 @@
 #Vinge
 #version: 1.0.0
 
-number='^[0-9]+$';
-logError="";
 chmod -R a+rx *;
-
+number='^[0-9]+$';
 
 installing()
 {
@@ -46,16 +44,14 @@ echo "";
 }
 
 
-soon()
+anyKey()
 {
-banner;
-echo -e "\e[1;35msoon..\e[0m";
 echo "";
 echo -en "\e[1;30mpress any key: \e[0m";
  read choice
     case $choice in
-"") shyno; ;;
-*) shyno; ;;
+"") $1; ;;
+*) $1; ;;
     esac;
 }
 
@@ -73,21 +69,25 @@ echo "";
 echo ""; exit 0;
   elif [[ $filePath == "b" ]]; then
 encryptOrDecryptFile;
-  elif [[ $filePath == $number ]]; then
-error; metadata;
+  elif [[ $filePath =~ $number ]]; then
+error; decryptFile;
   elif [[ $filePath == "" ]]; then
-error; metadata;
+error; decryptFile;
   else
 ccdecrypt "$filePath";
-cp "$filePath.cpt" data/log/encryptedFiles/;
-#toDo LOG
-echo "";
-echo -en "\e[1;30mpress any key: \e[0m";
- read choice
-    case $choice in
-"") pentest; ;;
-*) pentest; ;;
-    esac;
+  case $? in
+0) #checking the last signs
+    if [[ ${filePath: -4} == '.cpt' ]]; then
+filePath=$( echo $filePath| rev | cut -c 5- | rev );
+    fi;
+mv "$filePath" data/files/decryptedFiles/;
+banner;
+echo -en "\e[1;37m$filePath \e[0m";
+echo -e "\e[1;30mis successfully decrypted";
+echo -en "\e[1;30mThe file is located in \e[0m"
+echo -e "\e[1;37mVinge/data/files/decryptedFiles\e[0m"; ;;
+  esac;
+anyKey encryptOrDecryptFile;
   fi;
 }
 
@@ -105,21 +105,21 @@ echo "";
 echo ""; exit 0;
   elif [[ $filePath == "b" ]]; then
 encryptOrDecryptFile;
-  elif [[ $filePath == $number ]]; then
-error; metadata;
+  elif [[ $filePath =~ $number ]]; then
+error; encryptFile;
   elif [[ $filePath == "" ]]; then
-error; metadata;
+error; encryptFile;
   else
 ccencrypt "$filePath";
-cp "$filePath.cpt" data/log/encryptedFiles/;
-#toDo LOG
-echo "";
-echo -en "\e[1;30mpress any key: \e[0m";
- read choice
-    case $choice in
-"") pentest; ;;
-*) pentest; ;;
+    case $? in
+0) banner;
+mv "$filePath.cpt" data/files/encryptedFiles/;
+echo -en "\e[1;37m$filePath \e[0m";
+echo -e "\e[1;30mis successfully encrypted";
+echo -en "\e[1;30mThe file is located in \e[0m"
+echo -e "\e[1;37mVinge/data/files/encryptedFiles\e[0m"; ;;
     esac;
+anyKey encryptOrDecryptFile;
   fi;
 }
 
@@ -142,13 +142,6 @@ input;
 }
 
 
-
-phoneNumberInfo()
-{
-echo
-}
-
-
 searchByNick()
 {
 echo
@@ -168,7 +161,7 @@ echo "";
 echo ""; exit 0;
   elif [[ $filePath == "b" ]]; then
 pentest;
-  elif [[ $filePath == $number ]]; then
+  elif [[ $filePath =~ $number ]]; then
 error; metadata;
   elif [[ $filePath == "" ]]; then
 error; metadata;
@@ -176,13 +169,7 @@ error; metadata;
 echo "" >> data/log/metadata/metadata.md;
 echo "" >> data/log/metadata/metadata.md;
 exiftool "$filePath" | tee -a data/log/metadata/metadata.md;
-echo "";
-echo -en "\e[1;30mpress any key: \e[0m";
- read choice
-    case $choice in
-"") pentest; ;;
-*) pentest; ;;
-    esac;
+anyKey pentest;
   fi;
 }
 
@@ -206,8 +193,6 @@ echo -e "\e[1;30m / \e[0m""\e[37mmetadata\e[0m";
 echo -en "\e[1;30m/ \e[0m""\e[37m3\e[0m"
 echo -e "\e[1;30m / \e[0m""\e[37msearch by nick\e[0m";
 echo -en "\e[1;30m/ \e[0m""\e[37m4\e[0m"
-echo -e "\e[1;30m / \e[0m""\e[37mphone number info\e[0m";
-echo -en "\e[1;30m/ \e[0m""\e[37m5\e[0m"
 echo -e "\e[1;30m / \e[0m""\e[37mencrypt file\e[0m";
 input;
  read choice
@@ -215,8 +200,7 @@ input;
 1) siteInfo; ;;
 2) metadata; ;;
 3) searchByNick; ;;
-4) phoneNumberInfo; ;;
-5) encryptOrDecryptFile; ;;
+4) encryptOrDecryptFile; ;;
 "b") shyno; ;;
 "x") echo ""; exit 0; ;;
 *) error; pentest; ;;
