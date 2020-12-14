@@ -144,7 +144,8 @@ input;
 
 searchByNick()
 {
-echo
+banner;
+backOrExit;
 }
 
 
@@ -224,7 +225,6 @@ echo "";
 echo -e "\e[37m1.site info\e[0m";
 echo -e "\e[37m2.metadata\e[0m";
 echo -e "\e[37m3.search by nick\e[0m";
-echo -e "\e[37m4.phone number info\e[0m";
 input
  read choice
   case $choice in
@@ -234,8 +234,6 @@ echo '#site info log' > data/log/siteInfo/siteInfo.md; ;;
 echo '#metadata log' > data/log/metadata/metadata.md; ;;
 3) logChoice="search by nick log";
 echo '#search by nick log' >data/log/searchByNick/searchByNick.md; ;;
-4) logChoice="phone number info log";
-echo '#phone number info log' >data/log/phoneNumberInfo/phoneNumberInfo.md; ;;
 "b") log; ;;
 "x") echo ""; exit 0; ;;
 *) error; clearLog; ;;
@@ -253,14 +251,12 @@ echo "";
 echo -e "\e[37m1.site info\e[0m";
 echo -e "\e[37m2.metadata\e[0m";
 echo -e "\e[37m3.search by nick\e[0m";
-echo -e "\e[37m4.phone number info\e[0m";
 input
  read choice
   case $choice in
 1) clear; less data/log/siteInfo/siteInfo.md; openLog; ;;
 2) clear; less data/log/metadata/metadata.md; openLog; ;;
 3) clear; less data/log/searchByNick/searchByNick.md; openLog; ;;
-4) clear; less data/log/phoneNumberInfo/phoneNumberInfo.md; openLog; ;;
 "b") log; ;;
 "x") echo ""; exit 0; ;;
 *) error; openLog; ;;
