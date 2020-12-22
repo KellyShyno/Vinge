@@ -70,7 +70,7 @@ pkg install perl -y;
   else
 os="linux";
     if [[ ! -f /usr/bin/exiftool ]]; then
-sudo apt install exiftool -y;
+sudo apt install libimage-exiftool-perl -y;
     fi;
       if [[ ! -f /usr/bin/ccrypt ]]; then
 sudo apt install ccrypt -y;
