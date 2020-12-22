@@ -70,13 +70,13 @@ pkg install perl -y;
   else
 os="linux";
     if [[ ! -f /usr/bin/exiftool ]]; then
-apt install exiftool -y;
+sudo apt install exiftool -y;
     fi;
       if [[ ! -f /usr/bin/ccrypt ]]; then
-apt install ccrypt -y;
+sudo apt install ccrypt -y;
       fi;
         if [[ ! -f /usr/bin/nikto ]]; then
-apt install nikto -y;
+sudo apt install nikto -y;
         fi;
   fi;
 shyno;
